@@ -27,6 +27,30 @@ func Crawl(url string, depth int) {
 	}
 }
 
-func extractLinks(resp *http.Response) {
-	fmt.Println("Extracting links from the response body")
+func extractLinks(resp *http.Response) []string {
+	links := []string{}
+
+	doc, err := html.Parse(resp.Body)
+	if err != nil {
+		fmt.Println("Error parsing HTML:", err)
+		return links
+	}
+
+	var f func(*html.Node)
+	f = func(n *html.Node) {
+		if n.Type = html.ElementNode && n.Data == "a" {
+			for _, atr := range n.Attr {
+				if attr.Key == "href" {
+					links = append(links, attr.Val)
+				}
+			}
+		}
+
+		for c := n.FirstChild; c != nil; c = c.NextSibling {
+			f(c)
+		}
+	}
+	f(doc)
+
+	return links
 }
