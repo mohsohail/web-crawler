@@ -19,4 +19,14 @@ func Crawl(url string, depth int) {
 	}
 	defer resp.Body.Close()
 
+	links := extractLinks(resp)
+
+	for _, link := range links {
+		fmt.Println("Found link:", link)
+		Crawl(link, depth-1)
+	}
+}
+
+func extractLinks(resp *http.Response) {
+	fmt.Println("Extracting links from the response body")
 }
