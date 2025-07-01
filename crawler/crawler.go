@@ -38,8 +38,8 @@ func extractLinks(resp *http.Response) []string {
 
 	var f func(*html.Node)
 	f = func(n *html.Node) {
-		if n.Type = html.ElementNode && n.Data == "a" {
-			for _, atr := range n.Attr {
+		if n.Type == html.ElementNode && n.Data == "a" {
+			for _, attr := range n.Attr {
 				if attr.Key == "href" {
 					links = append(links, attr.Val)
 				}
